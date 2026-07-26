@@ -972,6 +972,24 @@ config SERIAL_OMAP_CONSOLE
 	  your boot loader about how to pass options to the kernel at
 	  boot time.)
 
+config SERIAL_IKR_UART
+	tristate "IKR MMIO UART support (rvemu simulator)"
+	depends on OF
+	select SERIAL_CORE
+	help
+	  Select this option to enable the IKR MMIO UART driver used in the
+	  rvemu RISC-V simulator. The UART has three byte-wide registers:
+	  DATA (offset 0), RXSTS (offset 1), and TXSTS (offset 2).
+	  RX is polled via a kernel timer; no interrupt line is required.
+
+config SERIAL_IKR_UART_CONSOLE
+	bool "IKR UART console support"
+	depends on SERIAL_IKR_UART=y
+	select SERIAL_CORE_CONSOLE
+	help
+	  Enable console support on the IKR MMIO UART. Set console=ttyIKR0
+	  on the kernel command line to use it.
+
 config SERIAL_SIFIVE
 	tristate "SiFive UART support"
 	depends on OF
